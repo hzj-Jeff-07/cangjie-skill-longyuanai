@@ -8,24 +8,24 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-star-history
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
+    # Scheduled runs only make sense in the canonical repo; forks can still
+    # trigger manually via workflow_dispatch.
+    if: github.event_name == 'workflow_dispatch' || github.repository == 'kangarooking/cangjie-skill'
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify star history token
-        env:
-          STAR_HISTORY_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
-        run: |
-          if [ -z "$STAR_HISTORY_TOKEN" ]; then
-            echo "::error::Repository secret STAR_HISTORY_TOKEN is required to read timestamped stargazer data."
-            exit 1
-          fi
-
       - name: Generate star history chart
         env:
-          GITHUB_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
+          # STAR_HISTORY_TOKEN is optional; the default workflow token can
+          # read public stargazer timestamps just fine.
+          GITHUB_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN || github.token }}
         run: python3 scripts/generate_star_history.py
 
       - name: Commit updated chart

@@ -1,32 +1,45 @@
+<div align="center">
+
 # Cangjie Skill
 
-Distill a book into a set of executable AI skills.
+### Distill the methodologies in books, long videos, and podcasts into callable AI Skills
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-f5c542.svg)](./LICENSE)
+[![Method: RIA--TV++](https://img.shields.io/badge/Method-RIA--TV++-2ea44f.svg)](./SKILL.md)
+[![Platform: OpenClaw](https://img.shields.io/badge/Platform-OpenClaw-1677ff.svg)](https://github.com/openclaw/openclaw)
+[![Platform: Claude Code](https://img.shields.io/badge/Platform-Claude%20Code-f97316.svg)](https://code.claude.com/)
+
+**After reading, watching, or listening — walk away with a methodology you can actually invoke.**
+
+</div>
 
 ## Why This Exists
 
 There's a recent viral idea: distilling colleagues into AI skills. Even after someone leaves, their experience, tone, and work style can be partially replicated by AI. [nuwa-skill](https://github.com/alchaincyf/nuwa-skill) does exactly this — creating "human skills" like an Elon Musk skill or a Warren Buffett skill. The companion [darwin-skill](https://github.com/alchaincyf/darwin-skill) handles automatic skill evolution.
 
-Distilling people is valuable — nuwa-skill has already proven this. Distilling what people have **written** is a complementary dimension: a book represents years of deliberate thinking — the distilled essence of careful reflection. Rather than imitating someone's expression style, extracting their systematically produced methodologies into tools that help people solve real problems is equally valuable.
+Distilling people is valuable — nuwa-skill has already proven this. Distilling what people have **systematically expressed** is a complementary dimension: a book, a long interview, a podcast episode, a long video on Bilibili or YouTube — each may contain methodologies the author spent years refining. Rather than imitating someone's expression style, extracting their systematically produced methodologies into tools that help people solve real problems is equally valuable.
 
-There's also a real pain point: you might read many books but struggle to apply them. Knowledge stays at the "I've read it" level and never gets activated in real decisions. Once a book is distilled into skills, an AI agent can invoke that knowledge in real scenarios — instead of letting it gather dust in your notes.
+There's also a real pain point: you may have read many books, saved many videos, and listened to many podcasts — but you can't put them to use. Platforms publish massive amounts of long-form, high-value content every day; it's time-sensitive, lengthy, usually not yet in any AI's training data, and hard to fully absorb in one viewing. Once that content is distilled into skills, an AI agent can invoke the knowledge for you in real scenarios — instead of letting it gather dust in your notes, bookmarks, or watch-later list.
 
-So cangjie-skill has one clear goal: **distill every book worth distilling**, turning each high-value book into a set of independently callable, composable, and pressure-testable AI skill packs.
+So cangjie-skill has one clear goal: **distill everything worth distilling**. It works not only for books but for any video, podcast, interview, talk, course, long article, or document collection with subtitles or a transcript. As long as the content contains extractable, verifiable, transferable methodology, cangjie-skill can turn it into a set of independently callable, composable, pressure-testable AI skills.
+
+For video content, we recommend pairing it with the [video-downloader](https://github.com/kangarooking/kangarooking-skills/tree/main/video-downloader) skill: use it to download the video and extract subtitles / audio transcripts first, then hand the resulting text to cangjie-skill for methodology extraction, skill construction, and pressure testing.
 
 ## What Problems It Solves
 
-- Reading many books but never applying them — knowledge stays at "I've read it" and never activates in real decisions
-- Book summaries and reading notes are compression, not structured reuse — you still don't know "when to use what"
-- Only a small fraction of a book deserves to become a tool — strict filtering is needed, not wholesale inclusion
-- Existing reading methodologies are designed for human readers, not agent executors — distillation must be execution-oriented, not reading-oriented
+- Reading, watching, and listening a lot but never applying it — knowledge stays at the "consumed it" level and never activates in real decisions
+- Summaries, notes, and subtitle digests are compression, not structured reuse — you still don't know "when to use what"
+- Only a small fraction of high-value content deserves to become a tool — strict filtering is needed, not wholesale inclusion
+- Existing reading/viewing methodologies are designed for human consumers, not agent executors — distillation must be execution-oriented, not consumption-oriented
 
 ## How It Works
 
-cangjie-skill uses the **RIA-TV++** pipeline to transform a book from raw text into a set of structured skills. The process has seven stages:
+cangjie-skill uses the **RIA-TV++** pipeline to transform books, video transcripts, podcast scripts, and interview records into a set of structured skills. The process has seven stages:
 
-1. **Whole-Book Comprehension (Adler Analysis)** — Structural, interpretive, critical, and applicability analysis using Mortimer Adler's method, producing `BOOK_OVERVIEW.md`
+1. **Whole-Content Comprehension (Adler Analysis)** — Structural, interpretive, critical, and applicability analysis using Mortimer Adler's method, producing `BOOK_OVERVIEW.md`
 2. **Parallel Extraction** — Five specialized extractors (frameworks, principles, cases, counter-examples, glossary) run simultaneously to pull candidate units from the source text
 3. **Triple Verification** — Each candidate must pass three checks: at least 2 independent supporting passages (cross-domain), ability to answer a novel question (predictive power), and non-commonsense uniqueness. Pass rate is typically 25-50%
-4. **RIA++ Construction** — Verified content is structured into six dimensions: R (original quote) / I (own-words reconstruction) / A1 (book cases) / A2 (future trigger scenarios) / E (executable steps) / B (boundaries & blind spots)
+4. **RIA++ Construction** — Verified content is structured into six dimensions: R (original quote) / I (own-words reconstruction) / A1 (source cases) / A2 (future trigger scenarios) / E (executable steps) / B (boundaries & blind spots)
 5. **Zettelkasten Linking** — Dependency, contrast, and composition relationships between skills are identified, producing `INDEX.md` with a reference graph
 6. **Pressure Testing** — Test prompts including bait questions (and cross-skill confusion tests) are designed for each skill; failures go back for full reconstruction
 7. **Delivery** — A reader-facing `DIGEST.md` long-form digest is generated (skip the book, read the essence), and tested skills are installed into the Claude Code / Cursor skills directory so they can actually be invoked
@@ -36,13 +49,43 @@ The name RIA-TV++ breaks down as:
 - **TV**: Triple Verification
 - **++**: Agent-oriented extensions — E (Execution) + B (Boundary)
 
+## Installation & Usage
+
+### Install into Claude Code
+
+cangjie-skill is itself a standard Claude Code skill — just clone it into your skills directory:
+
+```bash
+# User-level install (available in all projects)
+git clone https://github.com/kangarooking/cangjie-skill.git ~/.claude/skills/cangjie-skill
+
+# Or project-level install (current project only)
+git clone https://github.com/kangarooking/cangjie-skill.git .claude/skills/cangjie-skill
+```
+
+> ⚠️ The directory name must be `cangjie-skill`, matching the `name` field in the `SKILL.md` frontmatter — otherwise the host won't load it. Cursor users: place it under `.cursor/skills/cangjie-skill/`.
+
+### Run Your First Distillation
+
+1. **Prepare the source text**: a book as PDF / EPUB / TXT, or subtitles / transcripts for videos and podcasts (for videos, use [video-downloader](https://github.com/kangarooking/kangarooking-skills/tree/main/video-downloader) to get the text first). cangjie-skill never distills "from memory" — without a text it will stop and ask you for one
+2. **Tell Claude Code directly**:
+
+   ```text
+   Distill this book into skills: ./poor-charlie.txt
+   ```
+
+3. **Follow the pipeline**: whole-content comprehension → parallel extraction → triple verification → RIA++ construction → linking → pressure testing → delivery. Stage 0 (skeleton confirmation) and Stage 1.5 (candidate shortlist confirmation) pause for your input
+4. **Delivery**: once finished, install the produced skills into your skills directory so they can be auto-triggered in real conversations — and optionally feed them to [darwin-skill](https://github.com/alchaincyf/darwin-skill) for continuous evolution
+
+For your first run, distill one piece of content as a pilot before going batch.
+
 ## Effect Examples
 
-### Example 1: From a Book to a Skill Pack
+### Example 1: From a Book/Long Video to a Skill Pack
 
 **User Need**
 
-"I want to turn a book's core methodologies into reusable AI skills, not just a reading summary."
+"I want to turn the core methodologies of a book or a Bilibili/YouTube long video into reusable AI skills, not just a summary."
 
 **How cangjie-skill reasons**
 
@@ -72,34 +115,44 @@ The name RIA-TV++ breaks down as:
 
 ## Generated Skill Packs
 
+| Repository | Source | Skills | Topics |
+|------------|--------|--------|--------|
+| [buffett-letters-skill](https://github.com/kangarooking/buffett-letters-skill) | Buffett's shareholder letters (1957-2023) | 20 | Investment judgment & capital allocation |
+| [cognitive-dividend-skill](https://github.com/kangarooking/cognitive-dividend-skill) | Cognitive Dividend | 15 | Cognitive tools for thinking upgrades |
+| [duan-yongping-skill](https://github.com/kangarooking/duan-yongping-skill) | Duan Yongping's Q&A (business + investment logic) | 15 | Business & investment judgment |
+| [viral-copywriting-skill](https://github.com/kangarooking/viral-copywriting-skill) | Bao Kuan Wen An | 14 | Sales copywriting & diagnosis |
+| [copywriters-handbook-skill](https://github.com/kangarooking/copywriters-handbook-skill) | The Copywriter's Handbook | 12 | Sales copy, headlines & benefit translation |
+| [contagious-skill](https://github.com/kangarooking/contagious-skill) | Contagious | 15 | STEPPS propagation & word-of-mouth diagnosis |
+| [influence-skill](https://github.com/kangarooking/influence-skill) | Influence | 12 | Persuasion psychology & defensive judgment |
+| [1000-true-fans-skill](https://github.com/kangarooking/1000-true-fans-skill) | 1000 True Fans | 13 | Personal branding & trust-based monetization |
+| [system-prompt-skills](https://github.com/kangarooking/system-prompt-skills) | 165 AI product system prompts | 15 | System prompt design |
+| [X-growth-skills](https://github.com/kangarooking/X-growth-skills) | Practical X (Twitter) growth resources | 15 | Account launch, content, algorithms, engagement & monetization |
+| [poor-charlies-almanack-skill](https://github.com/kangarooking/poor-charlies-almanack-skill) | Poor Charlie's Almanack | 12 | Munger's decision-making & judgment methods |
+| [no-rules-rules-skill](https://github.com/kangarooking/no-rules-rules-skill) | No Rules Rules | 10 | Netflix-style organizational design |
+| [huangdi-neijing-skill](https://github.com/kangarooking/huangdi-neijing-skill) | Huangdi Neijing (Suwen + Lingshu) | 22 | Thinking methods (12 Suwen + 10 Lingshu) |
+| [first-principles-skill](https://github.com/kangarooking/first-principles-skill) | First Principles | 10 | Axiomatic reasoning & boundary-breaking innovation |
+| [mao-selected-works-skill](https://github.com/kangarooking/mao-selected-works-skill) | Selected Works of Mao Zedong, Vol. 1-5 | 25 | Cognition, strategy, organization & execution |
+| [qbdx-hub/buffett-letters-skill](https://github.com/qbdx-hub/buffett-letters-skill) | Buffett Shareholder Letters (1957-2023) | 20 | Investment & capital allocation |
+| [qbdx-hub/wo-yu-di-tan-skill](https://github.com/qbdx-hub/wo-yu-di-tan-skill) | Wo Yu Di Tan | 6 | Limits, suffering, writing & self-anchoring |
+| [qbdx-hub/mingchao-those-things-skill](https://github.com/qbdx-hub/mingchao-those-things-skill) | Mingchao Those Things | 7 | Power structure, institutional failure & historical explanation |
+| [qbdx-hub/sunzi-bingfa-skill](https://github.com/qbdx-hub/sunzi-bingfa-skill) | Sunzi Bingfa | 8 | Strategic judgment, resource control & action selection |
+| [qbdx-hub/zhouyi-skill](https://github.com/qbdx-hub/zhouyi-skill) | Zhouyi | 8 | Situational diagnosis, timing & advance-retreat boundaries |
+| [qbdx-hub/high-math-vol1-ch1-skill](https://github.com/qbdx-hub/high-math-vol1-ch1-skill) | High Math Vol. 1 Chapter 1 | 8 | Limits, infinitesimals & continuity |
+
+## Video Distillation Zone
+
+These repositories come from subtitle/transcript text of long videos, courses, or video collections — showcasing cangjie-skill's methodology distillation on non-book content.
+
 | Repository | Source | Skills |
 |------------|--------|--------|
-| [buffett-letters-skill](https://github.com/kangarooking/buffett-letters-skill) | Buffett's shareholder letters (1957-2023) | 20 |
-| [cognitive-dividend-skill](https://github.com/kangarooking/cognitive-dividend-skill) | Cognitive Dividend | 15 |
-| [duan-yongping-skill](https://github.com/kangarooking/duan-yongping-skill) | Duan Yongping's Q&A (business + investment logic) | 15 |
-| [viral-copywriting-skill](https://github.com/kangarooking/viral-copywriting-skill) | Bao Kuan Wen An | 14 |
-| [copywriters-handbook-skill](https://github.com/kangarooking/copywriters-handbook-skill) | The Copywriter's Handbook | 12 |
-| [contagious-skill](https://github.com/kangarooking/contagious-skill) | Contagious | 15 |
-| [influence-skill](https://github.com/kangarooking/influence-skill) | Influence | 12 |
-| [1000-true-fans-skill](https://github.com/kangarooking/1000-true-fans-skill) | 1000 True Fans | 13 |
-| [system-prompt-skills](https://github.com/kangarooking/system-prompt-skills) | 165 AI product system prompts | 15 |
-| [X-growth-skills](https://github.com/kangarooking/X-growth-skills) | Practical X (Twitter) account launch, content growth, algorithm, engagement, and monetization resources | 15 |
-| [poor-charlies-almanack-skill](https://github.com/kangarooking/poor-charlies-almanack-skill) | Poor Charlie's Almanack | 12 |
-| [no-rules-rules-skill](https://github.com/kangarooking/no-rules-rules-skill) | No Rules Rules | 10 |
-| Huangdi Neijing Suwen (in this project) | Huangdi Neijing: Suwen | 10 |
-| Huangdi Neijing Lingshu (in this project) | Huangdi Neijing: Lingshu | 8 |
-| [first-principles-skill](https://github.com/kangarooking/first-principles-skill) | First Principles | 10 |
-| [mao-selected-works-skill](https://github.com/kangarooking/mao-selected-works-skill) | Selected Works of Mao Zedong, Vol. 1-5 | 25 |
-| [qbdx-hub/buffett-letters-skill](https://github.com/qbdx-hub/buffett-letters-skill) | Buffett Shareholder Letters (1957-2023) | 20 |
-| [qbdx-hub/wo-yu-di-tan-skill](https://github.com/qbdx-hub/wo-yu-di-tan-skill) | Wo Yu Di Tan | 6 |
-| [qbdx-hub/mingchao-those-things-skill](https://github.com/qbdx-hub/mingchao-those-things-skill) | Mingchao Those Things | 7 |
-| [qbdx-hub/sunzi-bingfa-skill](https://github.com/qbdx-hub/sunzi-bingfa-skill) | Sunzi Bingfa | 8 |
-| [qbdx-hub/zhouyi-skill](https://github.com/qbdx-hub/zhouyi-skill) | Zhouyi | 8 |
-| [qbdx-hub/high-math-vol1-ch1-skill](https://github.com/qbdx-hub/high-math-vol1-ch1-skill) | High Math Vol. 1 Chapter 1 | 8 |
+| [ai-for-everyone-skill](https://github.com/kangarooking/ai-for-everyone-skill) | Andrew Ng's "AI for Everyone" video course | 25 |
+| [loop-engineering-skill](https://github.com/kangarooking/loop-engineering-skill) | Loop Engineering long-video collection | 8 |
 
-More high-value books are planned for distillation.
+Want your own distilled repository listed above? See the inclusion criteria in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-Additional external source (included with the author's permission):
+More high-value books are planned for distillation. Candidates include (but are not limited to): *The Prince*.
+
+Additional external sources (included with the authors' permission):
 
 - Source repository: [ace3000chao/book2startup](https://github.com/ace3000chao/book2startup)
 - Included books: *The Lean Startup*, *The Art of War*, *Zhuangzi*, and *I Ching*
@@ -110,14 +163,17 @@ Additional external source (included with the author's permission):
 
 ```text
 cangjie-skill/
-├── README.md              ← You are here
-├── README.en.md           ← English version
+├── README.md              ← Chinese version
+├── README.en.md           ← You are here
 ├── README.ja.md           ← Japanese version
 ├── LICENSE                ← MIT
+├── CONTRIBUTING.md        ← Contribution guide + skill pack inclusion criteria
 ├── SKILL.md               ← Meta-skill definition (full execution spec for cangjie-skill)
 ├── methodology/           ← RIA-TV++ stage-by-stage methodology docs
 ├── extractors/            ← Prompt definitions for the 5 parallel extractors
-└── templates/             ← SKILL.md / INDEX.md / BOOK_OVERVIEW.md templates
+├── templates/             ← SKILL.md / INDEX.md / BOOK_OVERVIEW.md templates
+├── scripts/               ← Star-history chart generator
+└── assets/                ← Images used by the READMEs
 ```
 
 ## Ecosystem
@@ -130,39 +186,18 @@ cangjie-skill is part of a larger skill ecosystem:
 
 They interlock: nuwa distills people, cangjie distills books, darwin keeps them evolving.
 
-## More Skills
+## Contributors
 
-- [Buffett Letters Skill](https://github.com/kangarooking/buffett-letters-skill) — 20 investment reasoning skills from Buffett's 60+ years of shareholder letters
-- [Poor Charlie's Almanack Skill](https://github.com/kangarooking/poor-charlies-almanack-skill) — 12 decision-making and judgment skills from Charlie Munger's core thinking methods
-- [No Rules Rules Skill](https://github.com/kangarooking/no-rules-rules-skill) — 10 organizational design skills from Netflix's culture of freedom and responsibility
-- [Cognitive Dividend Skill](https://github.com/kangarooking/cognitive-dividend-skill) — 15 cognitive tool skills for thinking upgrades from Cognitive Dividend
-- [Duan Yongping Skill](https://github.com/kangarooking/duan-yongping-skill) — 15 business and investment skills from Duan Yongping's Q&A collection
-- [Viral Copywriting Skill](https://github.com/kangarooking/viral-copywriting-skill) — 14 sales copywriting and diagnosis skills from *Bao Kuan Wen An*
-- [Copywriters Handbook Skill](https://github.com/kangarooking/copywriters-handbook-skill) — 12 sales copywriting, headline, and benefit translation skills from *The Copywriter's Handbook*
-- [Contagious Skill](https://github.com/kangarooking/contagious-skill) — 15 STEPPS propagation strategy and word-of-mouth diagnosis skills from *Contagious*
-- [Influence Skill](https://github.com/kangarooking/influence-skill) — 12 persuasion psychology, compliance mechanism, and defensive judgment skills from *Influence*
-- [1000 True Fans Skill](https://github.com/kangarooking/1000-true-fans-skill) — 13 personal branding, true fan development, and trust-based monetization skills from *1000 True Fans*
-- [System Prompt Skills](https://github.com/kangarooking/system-prompt-skills) — 15 system prompt design skills distilled from 165 AI product system prompts
-- [X Growth Skills](https://github.com/kangarooking/X-growth-skills) — 15 skills for X account launch, content, algorithms, engagement, review, and monetization
-- Huangdi Neijing Suwen Skill (in this project) — 10 traditional Chinese medicine observation and regulation skills from *Huangdi Neijing: Suwen*
-- Huangdi Neijing Lingshu Skill (in this project) — 8 body-mind regulation and syndrome differentiation skills from *Huangdi Neijing: Lingshu*
-- [First Principles Skill](https://github.com/kangarooking/first-principles-skill) — 10 skills on axiomatic reasoning, boundary-breaking innovation, and organizational refresh from *First Principles*
-- [Mao Selected Works Skill](https://github.com/kangarooking/mao-selected-works-skill) — 25 cognition, strategy, organization, and execution skills from *Selected Works of Mao Zedong*
-- [qbdx-hub Buffett Letters Skill](https://github.com/qbdx-hub/buffett-letters-skill) — 20 investment and capital allocation skills from Buffett shareholder letters
-- [qbdx-hub Wo Yu Di Tan Skill](https://github.com/qbdx-hub/wo-yu-di-tan-skill) — 6 skills on limits, suffering, writing, and self-anchoring from *Wo Yu Di Tan*
-- [qbdx-hub Mingchao Those Things Skill](https://github.com/qbdx-hub/mingchao-those-things-skill) — 7 skills on power structure, institutional failure, and historical explanation from *Mingchao Those Things*
-- [qbdx-hub Sunzi Bingfa Skill](https://github.com/qbdx-hub/sunzi-bingfa-skill) — 8 skills on strategic judgment, resource control, and action selection from *Sunzi Bingfa*
-- [qbdx-hub Zhouyi Skill](https://github.com/qbdx-hub/zhouyi-skill) — 8 skills on situational diagnosis, timing, and advance-retreat boundaries from *Zhouyi*
-- [qbdx-hub High Math Vol. 1 Chapter 1 Skill](https://github.com/qbdx-hub/high-math-vol1-ch1-skill) — 8 learning skills on limits, infinitesimals, and continuity from High Math Vol. 1 Chapter 1
+Thanks to the following contributors for enriching the cangjie-skill ecosystem:
 
-External Source (included with the author's permission):
-
-- [book2startup](https://github.com/ace3000chao/book2startup) — includes skills distilled from *The Lean Startup*, *The Art of War*, *Zhuangzi*, and *I Ching*
-- [book2skill](https://github.com/shenqistart/book2skill) — includes AI-Agent skills distilled from *Chanlun* and *The Classic of Tea*
+- [shenqistart](https://github.com/shenqistart) — contributed the external [book2skill](https://github.com/shenqistart/book2skill) reference and updated the Chinese/English/Japanese READMEs
+- [qbdx-hub](https://github.com/qbdx-hub) — contributed 6 Cangjie whole-book/chapter distillation example repositories and updated the README references
 
 ## About the Author
 
 **kangarooking** — AI blogger, indie developer. Creator of AI Top WeChat Official Account「袋鼠帝 AI 客栈」
+
+<img src="./assets/wechat-personal-qr.jpg" width="220" alt="kangarooking personal WeChat QR code">
 
 Volcengine Navigation KOL, Baidu Qianfan Developer Ambassador, GLM Evangelist, Trae Kunming's First Fellow
 
@@ -176,7 +211,11 @@ Volcengine Navigation KOL, Baidu Qianfan Developer Ambassador, GLM Evangelist, T
 
 WeChat Official Account「袋鼠帝 AI 客栈」QR code:
 
-![](https://raw.githubusercontent.com/kangarooking/cangjie-skill/main/assets/kangarooking-gzh.png)
+![](./assets/kangarooking-gzh.png)
+
+To distill methodologies from books, long videos, podcasts, and courses into callable Agent Skills together, join the cangjie-skill WeCom group:
+
+<img src="./assets/wecom-cangjie-group-qr.png" width="220" alt="cangjie-skill WeCom group QR code">
 
 ## ⭐ Star History
 

@@ -48,5 +48,6 @@
     }
   ],
   "minimum_pass_rate": 0.8,
-  "notes": "至少 3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过 (诱饵容错为 0), 且其中至少 1 条是同书兄弟 skill 的场景 (跨 skill 混淆测试)。"
+  "should_not_trigger_tolerance": 0,
+  "notes": "至少 3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过 (诱饵容错为 0, 即 should_not_trigger_tolerance: 0 — 该硬约束优先于 minimum_pass_rate), 且其中至少 1 条是同书兄弟 skill 的场景 (跨 skill 混淆测试)。"
 }
