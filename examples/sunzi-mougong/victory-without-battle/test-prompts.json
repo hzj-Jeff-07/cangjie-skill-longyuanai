@@ -1,0 +1,53 @@
+{
+  "skill": "victory-without-battle",
+  "version": "0.1.0",
+  "source_book": "孙子兵法·谋攻篇 — 孙武",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "竞对上周把我们最大的客户挖走了，团队都憋着火，要不要直接降价 30% 打回去？",
+      "expected_behavior": "激活 victory-without-battle: 指出降价战是高成本手段，先生成伐谋（让对方挖角策略失效）与伐交（客户生态第三方）选项",
+      "notes": "正面场景: 报复冲动 + 直接跳到消耗战"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "合伙人把我踢出群了，我打算直接找律师起诉他违反协议",
+      "expected_behavior": "激活 victory-without-battle: 起诉是'攻城'层，先检查谋/交层是否有破坏更小的取胜路径",
+      "notes": "正面场景: 纠纷直接跳到最高成本选项"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "There's a rival team going after our budget next quarter. I want to fight back hard and win this head-on.",
+      "expected_behavior": "激活 victory-without-battle: 'fight back head-on' 是伐兵默认, 先枚举伐谋/伐交选项",
+      "notes": "正面场景: 英文 trigger 词 (fight back / head-on)"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我把这份季度汇报的结构理顺一下",
+      "expected_behavior": "不应激活: 无对抗方的纯执行问题",
+      "notes": "诱饵: 非冲突场景"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我们三个人的小团队，要不要和那家 500 人的大厂抢同一批用户？我们打得过吗？",
+      "expected_behavior": "不应激活本 skill, 应激活 strength-ratio-decision: 问题核心是'打得过吗'(实力比→动作), 不是'用哪类手段'",
+      "notes": "跨 skill 混淆诱饵: 同书兄弟 skill 场景 (硬性要求)"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "同事今天开会又抢我的功劳，我要不要发个全员邮件澄清？",
+      "expected_behavior": "合理判断: 属日常人际摩擦（B 段反场景），不激活或仅轻量提示'全员邮件是高成本手段'；不应展开完整阶梯推演",
+      "notes": "边界: 冲突真实存在但量级太小, 过度武装反而帮倒忙"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "should_not_trigger_tolerance": 0,
+  "notes": "3 should_trigger + 2 should_not_trigger + 1 edge_case; should-not-trigger-02 为跨 skill 混淆测试。"
+}

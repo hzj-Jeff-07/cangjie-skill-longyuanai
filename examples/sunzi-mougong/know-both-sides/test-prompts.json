@@ -1,0 +1,53 @@
+{
+  "skill": "know-both-sides",
+  "version": "0.1.0",
+  "source_book": "孙子兵法·谋攻篇 — 孙武",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "有个薪资翻倍的 offer，新公司我也没太多了解，但机会难得，要不要赌一把？",
+      "expected_behavior": "激活 know-both-sides: 立两栏审计 — 知彼(公司真实状况/高薪原因)与知己(要什么/最坏结果), 输出补信息清单而非直接建议",
+      "notes": "正面场景: 重大决策 + '赌一把' + 知彼栏明显空白"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我把这个项目的竞对全研究透了，数据都在这，我觉得可以 all in 了",
+      "expected_behavior": "激活 know-both-sides: 知彼栏已满但知己栏未审 — 追问承受的最坏结果与真实动机",
+      "notes": "正面场景: 单栏满、另一栏空而不自知"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "I have a chance to join an early-stage startup. Feels right, but do I actually know enough to take the leap?",
+      "expected_behavior": "激活 know-both-sides: 'do I know enough / take the leap' 直接命中, 两栏审计",
+      "notes": "正面场景: 英文 trigger 词"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "两个 offer 条件都摸清楚了：A 钱多离家远，B 钱少但成长快，帮我权衡一下怎么选",
+      "expected_behavior": "不应激活: 信息已充分, 卡在价值取舍 — 直接权衡, 再开审计清单是拖延",
+      "notes": "诱饵: 同是 offer 决策, 但信息完备度不缺"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "对方公司起诉我们了，资料我都整理好了，现在该正面应诉还是先谈和解？",
+      "expected_behavior": "不应激活本 skill, 应激活 victory-without-battle: 信息已备, 问题是选对抗手段层级 (谈=伐谋交, 诉=攻城)",
+      "notes": "跨 skill 混淆诱饵: 同书兄弟 skill 场景 (硬性要求)"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "中午吃川菜还是日料？我对这两家店都不太了解",
+      "expected_behavior": "合理判断: 字面命中'不了解'但属可逆小决策 (B 段反场景), 不应激活, 直接建议即可",
+      "notes": "边界: 补信息成本超过决策本身"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "should_not_trigger_tolerance": 0,
+  "notes": "3 should_trigger + 2 should_not_trigger + 1 edge_case; should-not-trigger-02 为跨 skill 混淆测试。"
+}

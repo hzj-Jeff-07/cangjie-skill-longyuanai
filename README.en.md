@@ -77,7 +77,7 @@ git clone https://github.com/kangarooking/cangjie-skill.git .claude/skills/cangj
 3. **Follow the pipeline**: whole-content comprehension → parallel extraction → triple verification → RIA++ construction → linking → pressure testing → delivery. Stage 0 (skeleton confirmation) and Stage 1.5 (candidate shortlist confirmation) pause for your input
 4. **Delivery**: once finished, install the produced skills into your skills directory so they can be auto-triggered in real conversations — and optionally feed them to [darwin-skill](https://github.com/alchaincyf/darwin-skill) for continuous evolution
 
-For your first run, distill one piece of content as a pilot before going batch.
+For your first run, distill one piece of content as a pilot before going batch. To see what the output looks like first, browse [examples/](./examples/) — a complete pipeline run on Sunzi's "Attack by Stratagem" chapter (all stage 0–5 artifacts + 3 skills).
 
 ## Effect Examples
 
@@ -172,7 +172,8 @@ cangjie-skill/
 ├── methodology/           ← RIA-TV++ stage-by-stage methodology docs
 ├── extractors/            ← Prompt definitions for the 5 parallel extractors
 ├── templates/             ← SKILL.md / INDEX.md / BOOK_OVERVIEW.md templates
-├── scripts/               ← Star-history chart generator
+├── examples/              ← End-to-end output example (full pipeline on Sunzi's "Attack by Stratagem")
+├── scripts/               ← Star-history chart generator & repo self-checks
 └── assets/                ← Images used by the READMEs
 ```
 

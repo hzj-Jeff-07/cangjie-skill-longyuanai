@@ -77,7 +77,7 @@ git clone https://github.com/kangarooking/cangjie-skill.git .claude/skills/cangj
 3. **跟随流水线推进**：整书理解 → 并行提取 → 三重验证 → RIA++ 构造 → 链接 → 压力测试 → 交付。阶段 0（骨架确认）和阶段 1.5（入选名单确认）会停下来请你把关方向
 4. **交付**：完成后按提示把产出的 skills 安装到 skills 目录，即可在真实对话中被自动触发；也可以一键喂给 [darwin-skill](https://github.com/alchaincyf/darwin-skill) 持续进化
 
-首次使用建议先蒸馏 1 份内容试点，跑通流程后再批量。
+首次使用建议先蒸馏 1 份内容试点，跑通流程后再批量。想先看产出长什么样，参考 [examples/](./examples/)——《孙子兵法·谋攻篇》的完整流水线示例（阶段 0–5 全部产物 + 3 个 skill）。
 
 ## 效果示例
 
@@ -172,7 +172,8 @@ cangjie-skill/
 ├── methodology/           ← RIA-TV++ 各阶段的方法论文档
 ├── extractors/            ← 5 个并行提取器的 prompt 定义
 ├── templates/             ← SKILL.md / INDEX.md / BOOK_OVERVIEW.md 模板
-├── scripts/               ← star-history 图表生成脚本
+├── examples/              ← 端到端产出示例（《孙子兵法·谋攻篇》完整流水线）
+├── scripts/               ← star-history 图表与仓库自检脚本
 └── assets/                ← README 用到的图片资源
 ```
 

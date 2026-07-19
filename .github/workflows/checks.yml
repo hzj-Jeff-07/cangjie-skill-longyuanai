@@ -1,0 +1,43 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "23 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  internal:
+    name: Internal links & JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check internal links and JSON templates
+        run: python3 scripts/check_links.py
+
+  external-links:
+    name: External links (weekly)
+    runs-on: ubuntu-latest
+    # External sites are flaky; only gate the canonical repo's weekly run,
+    # never PRs. Forks can still trigger manually.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check external links with lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --accept 200,201,202,204,206,301,302,308,429
+            --exclude 'x\.com'
+            --exclude 'xhslink\.com'
+            --exclude 'douyin\.com'
+            --exclude 'star-history\.com'
+            './**/*.md'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

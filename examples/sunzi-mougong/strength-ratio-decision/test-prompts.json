@@ -1,0 +1,53 @@
+{
+  "skill": "strength-ratio-decision",
+  "version": "0.2.0",
+  "source_book": "孙子兵法·谋攻篇 — 孙武",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我们三个人的小团队，要不要和那家 500 人的大厂抢同一批用户？我们打得过吗？",
+      "expected_behavior": "激活 strength-ratio-decision: 拆力量维度、估比值、判定劣势档 → 建议避开正面接触、切细分场景",
+      "notes": "正面场景: '打得过吗' + 明显实力悬殊"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "对方球队比我们强太多了，但兄弟们不想认怂，想硬拼到底",
+      "expected_behavior": "激活 strength-ratio-decision: 识别'不想认怂'为意志替代计算, 引用'小敌之坚大敌之擒'警告, 给出脱离/回避档建议",
+      "notes": "正面场景: 劣势死撑冲动"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "We have 10x their funding and headcount. Should we just crush them head-to-head right now?",
+      "expected_behavior": "激活 strength-ratio-decision: 10:1 优势档对应'围之'(不必付出交战成本), 提示碾压式进攻不是最优动作",
+      "notes": "正面场景: 英文 trigger (head-to-head) + 优势方误选高成本动作"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "帮我对比一下 PostgreSQL 和 MySQL 哪个更适合我们的业务",
+      "expected_behavior": "不应激活: 技术选型是非对抗性决策, '对比'不等于'敌我实力比'",
+      "notes": "诱饵: 出现'对比'字样但无对抗结构"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "竞对刚挖走了我们的核心客户，我要不要报复回去？",
+      "expected_behavior": "不应激活本 skill, 应激活 victory-without-battle: 问题是'要不要以及用哪类手段反击', 不是'实力比允许什么动作'",
+      "notes": "跨 skill 混淆诱饵: 同书兄弟 skill 场景 (硬性要求)"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "明知道这场官司大概率打不赢，但这是原则问题，我必须告",
+      "expected_behavior": "合理判断: 用户已声明道德底线优先（B 段反场景），不应用查表逻辑劝退; 可激活但只做风险量化, 不替用户改变'必须告'的决定",
+      "notes": "边界: 实力比判断与底线问题冲突时, 底线优先"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "should_not_trigger_tolerance": 0,
+  "notes": "3 should_trigger + 2 should_not_trigger + 1 edge_case; should-not-trigger-02 为跨 skill 混淆测试。v0.1.0 首轮盲测 5/6, 修订后升 v0.2.0, 见 test-results.md。"
+}

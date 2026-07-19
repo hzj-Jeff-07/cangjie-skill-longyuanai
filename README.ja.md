@@ -77,7 +77,7 @@ git clone https://github.com/kangarooking/cangjie-skill.git .claude/skills/cangj
 3. **パイプラインに従う**：全体理解 → 並行抽出 → 三重検証 → RIA++ 構築 → 連携 → ストレステスト → デリバリー。ステージ0（骨格確認）とステージ1.5（候補リスト確認）では、あなたの確認のために一時停止します
 4. **デリバリー**：完了後、生成されたスキルを skills ディレクトリにインストールすれば、実際の会話で自動的にトリガーされます。[darwin-skill](https://github.com/alchaincyf/darwin-skill) に渡して継続的に進化させることもできます
 
-初回はまず1つのコンテンツでパイロット蒸留を行い、フローを確認してからバッチ処理することを推奨します。
+初回はまず1つのコンテンツでパイロット蒸留を行い、フローを確認してからバッチ処理することを推奨します。産出物のイメージを先に掴みたい方は [examples/](./examples/) をご覧ください——『孫子兵法・謀攻篇』の完全パイプライン例（ステージ0–5の全産出物 + 3スキル）です。
 
 ## 効果例
 
@@ -172,7 +172,8 @@ cangjie-skill/
 ├── methodology/           ← RIA-TV++ の段階別方法論ドキュメント
 ├── extractors/            ← 5つの並行エクストラクターのプロンプト定義
 ├── templates/             ← SKILL.md / INDEX.md / BOOK_OVERVIEW.md テンプレート
-├── scripts/               ← Star History チャート生成スクリプト
+├── examples/              ← エンドツーエンド産出例（『孫子兵法・謀攻篇』の完全パイプライン）
+├── scripts/               ← Star History チャート生成とリポジトリ自己チェックのスクリプト
 └── assets/                ← README で使用する画像
 ```
 
